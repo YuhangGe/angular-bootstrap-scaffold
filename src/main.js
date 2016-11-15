@@ -9,8 +9,8 @@ import app from 'app';
 // 不需要在 main.js 里面引入所有的 controller, 和 directives/filters 不同，
 // controller 的引入原则是，在用到的模块的最顶部自己 import 。因为使用者一定是要
 // 显示地声明要使用的 controller，他有能力手动引入自己需要用的 controller
-import './modules/home/js/controller';
-import _h_tpl from './modules/home/index.html';
+import './module/home/js/controller';
+import _h_tpl from './module/home/index.html';
 
 app.config(['$stateProvider', function($stateProvider) {
   $stateProvider.state({

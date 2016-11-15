@@ -120,10 +120,10 @@ module.exports = function (paths, options = {}) {
       f.gzip !== false && response.setHeader('Content-Encoding', 'gzip');
     }
     response.setHeader('Last-Modified', f.mtime);
-    response.setHeader('Content-Length', f.gzip !== false ? f.gzip.length : f.buffer.length);
+    response.setHeader('Content-Length', f.gzip ? f.gzip.length : f.buffer.length);
     response.setHeader('Cache-Control', 'max-age=' + (opts.maxAge / 1000 | 0));
     response.setHeader('Content-Type', TYPES[path.extname(path.basename(file, '.gz'))] || 'application/octet-stream');
-    response.end(f.gzip !== false ? f.gzip : f.buffer);
+    response.end(f.gzip ? f.gzip : f.buffer);
     return true;
   }
 };
