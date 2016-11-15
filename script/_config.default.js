@@ -10,10 +10,13 @@ module.exports = {
   CWD,
   noColor,
   noCompress,
+  mockEnabled: true,
+  mockDir: path.join(CWD, 'mock'),
+  mockMatch: ['/api/'], // use '/' to mock any url
   proxyEnabled: true,
   proxyTimeout: 10000,
   proxyRules: {
-    '/api/': 'http://127.0.0.1:8000'
+    '/api/': 'http://127.0.0.1:8000'  // use '/' to proxy any url
   },
   publishRoot: './dist',
   srcRoot: path.join(CWD, 'src'),

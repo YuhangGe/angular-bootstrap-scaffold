@@ -6,6 +6,7 @@ const HtmlGen = require('./_genHTML');
 const path = require('path');
 const _util = require('./_util');
 const serve = require('./_static');
+const mock = require('./_mock');
 
 let liveReloadClients = [];
 function reload() {
@@ -31,6 +32,7 @@ function initLiveReload(server) {
 
 function *handleUrl(request, response) {
   if (request.url === '/' || request.url === '/index.html') {
+    response.setHeader('Content-Type', 'text/html; charset=utf-8');
     response.end(HtmlGen.HTML);
     return true;
   }
@@ -43,23 +45,24 @@ function *handleProxy(request, response) {
     return false;
   }
   let rules = config.proxyRules || {};
-  let found = false;
+  console.log(rules);
+  let remoteUrl = '';
   for(let prefix in rules) {
     if (request.url.startsWith(prefix)) {
       request.url = request.url.substring(prefix.length - 1);
-      found = true;
+      remoteUrl = rules[prefix];
       break;
     } 
   }
-  if (!found) {
+  if (!remoteUrl) {
     return false;
   }
-  let remote = config.remote.url + request.url;
+  let remote = remoteUrl + request.url;
   let info = url.parse(remote);
   console.log(`Proxy => ${request.method.yellow} ${remote.green}`);
   let ended = false;
   let req = http.request({
-    host: info.host,
+    hostname: info.hostname,
     port: info.port || 80,
     method: request.method,
     path: info.path,
@@ -116,6 +119,7 @@ function createServer(isDev) {
       gzip: false,
       maxAge: 1000
     }));
+    middlewares.push(mock());
   } else {
     middlewares.push(serve(config.distRoot, {
       gzip: true,
@@ -138,6 +142,8 @@ function createServer(isDev) {
         response.end();
       }
     }).catch(err => {
+      response.writeHead(500);
+      response.end();
       console.log(err);
     });
   });

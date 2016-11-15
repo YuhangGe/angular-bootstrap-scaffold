@@ -1,5 +1,10 @@
 # hansight analysis
 
+## How to Use
+
+1. clone this repo
+2. change `name` in `package.json` to your own project name
+
 ## Develop
 
 ````bash

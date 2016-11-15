@@ -116,9 +116,9 @@ function deepMerge(dst, src) {
 let CONFIG = null;
 function getConfig() {
   if (!CONFIG) {
-    const _config = require('./_config.default.js');
+    const _config = require(path.join(__dirname, '_config.default.js'));
     try {
-      deepMerge(_config, require('./_config.custom.js'));
+      deepMerge(_config, require(path.join(__dirname, '_config.custom.js')));
     } catch(ex) {
       // ignore
     }
@@ -135,6 +135,8 @@ fs.watch(__dirname, {
   if (bn.startsWith('_config')) {
     console.log('Reload config file');
     CONFIG = null;
+    delete require.cache[path.join(__dirname, '_config.default.js')];
+    delete require.cache[path.join(__dirname, '_config.custom.js')];
     getConfig();
   }
 });

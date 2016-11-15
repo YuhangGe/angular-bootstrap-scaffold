@@ -1,7 +1,7 @@
 {
   "name": "hansight-analysis",
   "version": "1.0.0",
-  "description": "",
+  "description": "hansight angular@1.5 and bootstrap@3 project scaffold",
   "main": "index.js",
   "scripts": {
     "dev": "node ./script/dev.js",
