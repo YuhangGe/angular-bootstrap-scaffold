@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <title>Hansight Analysis</title>
+  <style id="splash_screen_style">
+    #splash_screen {
+      position: fixed;
+      z-index: 99999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+    }
+    #splash_screen p {
+      margin: 15px;
+      font-size: 14px;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+<div id="splash_screen">
+  <p>Loading</p>
+</div>
+<div class="app">
+  <div class="nav">
+    <p>导航...</p>
+  </div>
+  <ui-view></ui-view>
+</div>
+
+<!-- css libs -->
+<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+<!-- end libs -->
+
+<!-- if debug -->
+<link rel="stylesheet" href="hansight-analysis.css" />
+<!-- else -->
+<link rel="stylesheet" href="{{CSS_FILES.main}}"/>
+<!-- end if -->
+
+<!-- js libs -->
+<script src="node_modules/angular/angular.js"></script>
+<script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+<!-- end libs -->
+
+<script>
+  // 在这里定义全局的 app，然后通过 rollup external 注册成 app 模块。
+  // 在代码里，直接 import app from 'app'; 来获取。
+  window.__HansightApp = angular.module('HansightApp', ['ui.router']);
+</script>
+<!-- if debug -->
+<script src="hansight-analysis.js"></script>
+<!-- else -->
+<script src="{{JS_FILES.main}}"></script>
+<!-- end if -->
+<script type="text/javascript">
+(function() {
+  let $s = document.getElementById('splash_screen_style');
+  $s.parentElement.removeChild($s);
+  $s = document.getElementById('splash_screen');
+  $s.parentElement.removeChild($s);
+  angular.bootstrap(document, ['HansightApp']);
+})();
+</script>
+
+</body>
+</html>

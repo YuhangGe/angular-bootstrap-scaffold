@@ -1,0 +1,8 @@
+node_modules
+**/.DS_Store
+.idea
+/dist
+/.tmp
+npm-debug.log
+
+script/_config.custom.js
